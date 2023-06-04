@@ -1,8 +1,29 @@
+let items = [
+    {
+        "name": "Помідори",
+        "quantity": 1
+    },
+    {
+        "name": "Печиво",
+        "quantity": 1
+    },
+    {
+        "name": "Сир",
+        "quantity": 2
+    },
+];
+localStorage.setItem("startItems", JSON.stringify(items))
+
 function addButtonFunction(){
     const inputField = document.getElementById("input");
 
-    if(inputField.value !== ""){
-        document.getElementsByClassName("product-last")[0].className = "product-center"
+    if(inputField.value !== "" && !items.some(item => item.name.toUpperCase() === inputField.value.toUpperCase())){
+        items.push({"name": inputField.value, "quantity": 1})
+        localStorage.setItem("items", JSON.stringify(items))
+        const centerElement = document.getElementsByClassName("product-last")[0];
+        if(centerElement){
+            centerElement.className = "product-center"
+        }
 
         const lastProductArticle = document.createElement("article")
         lastProductArticle.className = "product-last"
@@ -56,14 +77,50 @@ function addButtonFunction(){
         removeButton.setAttribute("data-tooltip", "Видалити предмет")
         removeButton.className = "delete"
         rightDiv.appendChild(removeButton)
+        removeButton.addEventListener("click", removeButtonHandler(lastProductArticle))
 
         lastProductArticle.appendChild(rightDiv)
 
         document.getElementsByClassName("product")[0].appendChild(lastProductArticle)
 
+        const basketDiv = document.createElement("div")
+        basketDiv.className = "product-item"
+
+        const spanText = document.createElement("span")
+        spanText.innerText = inputField.value + " "
+        spanText.className = "text"
+        basketDiv.appendChild(spanText)
+
+        const divShell = document.createElement("div")
+        divShell.className = "shell"
+
+        const spanAmount = document.createElement("span")
+        spanAmount.className = "amount"
+        spanAmount.innerText = "1"
+        divShell.appendChild(spanAmount)
+
+        basketDiv.appendChild(divShell)
+
+        document.getElementsByClassName("basket-second")[0].appendChild(basketDiv);
+
         inputField.value = "";
         inputField.focus();
     }
+}
+function removeButtonHandler(block) {
+    return function(event) {
+        block.parentNode.removeChild(block);
+
+        const text = block.getElementsByClassName("left")[0].getElementsByTagName("span")[0].innerText;
+        const index = items.findIndex(item => item.name === text);
+        items.splice(index, 1);
+
+        if (block.className === "product-last"){
+            if (document.getElementsByClassName("product-center").length - 1 !== -1) {
+                document.getElementsByClassName("product-center")[document.getElementsByClassName("product-center").length - 1].className = "product-last"
+            }
+        }
+    };
 }
 
 document.querySelector(".add-button").addEventListener("click", addButtonFunction);
@@ -73,18 +130,11 @@ document.addEventListener("keydown", function (event){
     }
 })
 
-var productBlocks = document.getElementsByClassName("product-center");
+const productBlocks = document.getElementsByClassName("product-center");
 
-// Додавання обробника подій до кожного блоку
-for (var i = 0; i < productBlocks.length; i++) {
-    var deleteButton = productBlocks[i].querySelector(".delete");
-    deleteButton.addEventListener("click", createClickHandler(productBlocks[i]));
+for (let i = 0; i < productBlocks.length; i++) {
+    const deleteButton = productBlocks[i].querySelector(".delete");
+    deleteButton.addEventListener("click", removeButtonHandler(productBlocks[i]));
 }
 
-// Функція, яка повертає обробник подій
-function createClickHandler(block) {
-    return function(event) {
-        // Ваш код для подальшої обробки блоку
-        console.log(block);
-    };
-}
+document.getElementsByClassName("product-last")[0].querySelector(".delete").addEventListener("click", removeButtonHandler(document.getElementsByClassName("product-last")[0]));
