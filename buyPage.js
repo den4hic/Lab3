@@ -1,5 +1,3 @@
-const addButton = document.querySelector(".add-button");
-
 function addButtonFunction(){
     const inputField = document.getElementById("input");
 
@@ -68,9 +66,25 @@ function addButtonFunction(){
     }
 }
 
-addButton.addEventListener("click", addButtonFunction);
+document.querySelector(".add-button").addEventListener("click", addButtonFunction);
 document.addEventListener("keydown", function (event){
     if(event.key === "Enter") {
         addButtonFunction()
     }
 })
+
+var productBlocks = document.getElementsByClassName("product-center");
+
+// Додавання обробника подій до кожного блоку
+for (var i = 0; i < productBlocks.length; i++) {
+    var deleteButton = productBlocks[i].querySelector(".delete");
+    deleteButton.addEventListener("click", createClickHandler(productBlocks[i]));
+}
+
+// Функція, яка повертає обробник подій
+function createClickHandler(block) {
+    return function(event) {
+        // Ваш код для подальшої обробки блоку
+        console.log(block);
+    };
+}
