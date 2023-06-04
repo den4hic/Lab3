@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8">
+		<title>My Page</title>
+		<link rel="stylesheet" type="text/css" href="main.css" />
+	</head>
+	<body>
+		<main class="parent">
+			<section class="product">
+				<article class="input">
+					<label for="input"></label><input placeholder="Назва товару" id="input" type="text">
+					<button class="volumetric-button" type="submit" data-tooltip="Додати предмет"><strong>Додати</strong></button>
+				</article>
+				<article class="product-first">
+					<div class="left"><span>Помідори</span></div>
+
+					<div class="center">
+						<button class="subtract" type="button" data-tooltip="Відняти">-</button>
+						<span class="product-count">1</span>
+						<button class="add" type="button" data-tooltip="Додати">+</button>
+					</div>
+					<div class="right">
+						<button class="bought" data-tooltip="Купити всі товари">Куплено</button>
+						<button class="delete" data-tooltip="Видалити предмет">x</button>
+					</div>
+				</article>
+				<article class="product-second">
+					<div class="left"><span>Печиво</span></div>
+
+					<div class="center">
+						<button class="subtract" type="button" data-tooltip="Відняти">-</button>
+						<span class="product-count">1</span>
+						<button class="add" type="button" data-tooltip="Додати">+</button>
+					</div>
+					<div class="right">
+						<button class="bought" data-tooltip="Купити всі товари">Куплено</button>
+						<button class="delete" data-tooltip="Видалити предмет">x</button>
+					</div>
+				</article>
+				<article class="product-third">
+					<div class="left"><span>Сир</span></div>
+
+					<div class="center">
+						<button class="subtract" type="button" data-tooltip="Відняти">-</button>
+						<span class="product-count">2</span>
+						<button class="add" type="button" data-tooltip="Додати">+</button>
+					</div>
+					<div class="right">
+						<button class="bought" data-tooltip="Купити всі товари">Куплено</button>
+						<button class="delete" data-tooltip="Видалити предмет">x</button>
+					</div>
+				</article>
+			</section>
+			<section class="basket">
+				<article class="basket-first">
+					<h2>Залишилося</h2>
+				</article>
+				<article class="basket-second">
+					<div class="product-item">
+						<span class="text">Печиво</span>
+						<div class="shell">
+							<span class="amount">2</span>
+						</div>
+					</div>
+					<div class="product-item">
+						<span class="text">Сир</span>
+						<div class="shell">
+							<span class="amount">1</span>
+						</div>
+					</div>
+					<div class="product-item">
+						<span class="text">Помідори</span>
+						<div class="shell">
+							<span class="amount">1</span>
+						</div>
+					</div>
+				</article>
+				<article class="basket-third">
+					<h2>Куплено</h2>
+				</article>
+				<article class="basket-fourth">
+
+				</article>
+			</section>
+		</main>
+		<footer class="badge">
+			<article>
+				<h2 class="badge"><strong>Buy List</strong></h2>
+				<p>Created by: <br> <span class="author"><strong>Denys Davydov</strong></span></p>
+			</article>
+		</footer>
+	</body>
+</html>
