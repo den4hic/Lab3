@@ -48,6 +48,7 @@ function addButtonFunction(){
         subtractButton.type = "button"
         subtractButton.setAttribute("data-tooltip", "Відняти")
         subtractButton.className = "subtract"
+        subtractButton.addEventListener("click", changeOneItem(centerDiv, -1))
         centerDiv.appendChild(subtractButton)
 
         const countSpan = document.createElement("span")
@@ -60,6 +61,7 @@ function addButtonFunction(){
         addButton.type = "button"
         addButton.setAttribute("data-tooltip", "Додати")
         addButton.className = "add"
+        addButton.addEventListener("click", changeOneItem(centerDiv, 1))
         centerDiv.appendChild(addButton)
 
         lastProductArticle.appendChild(centerDiv)
@@ -153,10 +155,25 @@ for (let i = 0; i < productBlocks.length; i++) {
 
 const addButtons    = document.getElementsByClassName("add");
 const removeButtons = document.getElementsByClassName("subtract");
+const spans         = document.querySelectorAll('.left span');
+
+function inputFieldCreator(mainSpan) {
+    return function (event) {
+
+        // TO DO SOMETHING
+
+        const input = document.createElement("input")
+        input.value = mainSpan.innerText
+        mainSpan.parentNode.appendChild(input)
+        mainSpan.parentNode.removeChild(mainSpan)
+
+    }
+}
 
 for(let i = 0; i < addButtons.length; i++) {
     addButtons[i].addEventListener("click", changeOneItem(addButtons[i].parentNode, 1))
     removeButtons[i].addEventListener("click", changeOneItem(removeButtons[i].parentNode, -1))
+    spans[i].addEventListener("click", inputFieldCreator(spans[i]))
 }
 
 function changeOneItem(centerElement, counter) {
@@ -173,12 +190,15 @@ function changeOneItem(centerElement, counter) {
             const rightTextElements = document.getElementsByClassName("text")
 
             for(let j = 0; j < rightTextElements.length; j++) {
-                if(rightTextElements[j].innerText === elementText) {
+                if(rightTextElements[j].innerText.trim() === elementText) {
                     rightTextElements[j].parentNode.querySelector(".shell .amount").innerText = Number(count.innerText)
                 }
             }
         }
     }
 }
+
+
+
 
 document.getElementsByClassName("product-last")[0].querySelector(".delete").addEventListener("click", removeButtonHandler(document.getElementsByClassName("product-last")[0]));
