@@ -12,7 +12,10 @@ let items = [
         "quantity": 2
     },
 ];
+
 localStorage.setItem("startItems", JSON.stringify(items))
+localStorage.setItem("items", JSON.stringify(items))
+// localStorage.clear()
 
 function addButtonFunction(){
     const inputField = document.getElementById("input");
@@ -114,6 +117,17 @@ function removeButtonHandler(block) {
         const text = block.getElementsByClassName("left")[0].getElementsByTagName("span")[0].innerText;
         const index = items.findIndex(item => item.name === text);
         items.splice(index, 1);
+        localStorage.setItem("items", JSON.stringify(items))
+
+        const spanTextArray = document.getElementsByClassName("text");
+
+        for (let i = 0; i < spanTextArray.length; i++) {
+            if (spanTextArray[i].innerText === text || spanTextArray[i].innerText.trim() === text) {
+                const productDiv = spanTextArray[i].parentNode
+                productDiv.parentNode.removeChild(productDiv)
+                break
+            }
+        }
 
         if (block.className === "product-last"){
             if (document.getElementsByClassName("product-center").length - 1 !== -1) {
@@ -135,6 +149,36 @@ const productBlocks = document.getElementsByClassName("product-center");
 for (let i = 0; i < productBlocks.length; i++) {
     const deleteButton = productBlocks[i].querySelector(".delete");
     deleteButton.addEventListener("click", removeButtonHandler(productBlocks[i]));
+}
+
+const addButtons    = document.getElementsByClassName("add");
+const removeButtons = document.getElementsByClassName("subtract");
+
+for(let i = 0; i < addButtons.length; i++) {
+    addButtons[i].addEventListener("click", changeOneItem(addButtons[i].parentNode, 1))
+    removeButtons[i].addEventListener("click", changeOneItem(removeButtons[i].parentNode, -1))
+}
+
+function changeOneItem(centerElement, counter) {
+    return function (event) {
+        if(centerElement.querySelector(".product-count").innerText !== "1" || counter === 1) {
+            const count = centerElement.querySelector(".product-count")
+            count.innerText = String(Number(count.innerText) + counter)
+            const elementText = centerElement.parentNode.querySelector(".left span").innerText
+            const elementIndex = items.findIndex(item => item.name === elementText)
+            items[elementIndex].quantity = Number(count.innerText)
+
+            localStorage.setItem("items", JSON.stringify(items))
+
+            const rightTextElements = document.getElementsByClassName("text")
+
+            for(let j = 0; j < rightTextElements.length; j++) {
+                if(rightTextElements[j].innerText === elementText) {
+                    rightTextElements[j].parentNode.querySelector(".shell .amount").innerText = Number(count.innerText)
+                }
+            }
+        }
+    }
 }
 
 document.getElementsByClassName("product-last")[0].querySelector(".delete").addEventListener("click", removeButtonHandler(document.getElementsByClassName("product-last")[0]));
